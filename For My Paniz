@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فقط برای پانیذ</title>
+<style>
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(145deg, #080808, #26000e, #080808);
+    color: #fff;
+    font-family: Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow-x: hidden;
+}
+.container {
+    width: 90%;
+    max-width: 650px;
+    padding: 35px 22px;
+    margin: 30px auto;
+    background: rgba(20, 0, 8, 0.85);
+    border: 1px solid #79002d;
+    border-radius: 22px;
+    box-shadow: 0 0 35px #65002255;
+    animation: appear 1.5s ease;
+}
+h1 {
+    color: #ff8aaa;
+    font-size: 29px;
+    margin-bottom: 25px;
+}
+p {
+    line-height: 2.4;
+    font-size: 17px;
+    color: #f4dce5;
+}
+button {
+    background: #85002f;
+    color: white;
+    border: 1px solid #ff7da5;
+    padding: 13px 28px;
+    border-radius: 30px;
+    font-size: 16px;
+    margin-top: 25px;
+    cursor: pointer;
+}
+button:hover {
+    background: #b00042;
+}
+.hidden {
+    display: none;
+}
+#letter {
+    text-align: right;
+    white-space: pre-wrap;
+    line-height: 2.5;
+    font-size: 16px;
+    color: #ffe3ec;
+    min-height: 200px;
+}
+.heart {
+    position: fixed;
+    bottom: -30px;
+    color: #d60050;
+    font-size: 20px;
+    animation: float 8s linear infinite;
+    pointer-events: none;
+}
+@keyframes float {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+</head>
+<body>
+<div class="container" id="page1">
+    <h1>فقط برای پانیذ ❤️</h1>
+    <p>
+        بعضی حرف‌ها را نمی‌شود ساده گفت...
+        <br>
+        بعضی احساس‌ها را باید با تمام قلب خواند.
+        <br><br>
+        این چند لحظه فقط برای توست.
+    </p>
+    <button onclick="nextPage(1)">ادامه بده</button>
+</div>
+<div class="container hidden" id="page2">
+    <h1>پانیذ قشنگم...</h1>
+    <p>
+        قبل از اینکه نامه‌ام را بخوانی،
+        می‌خواهم بدانی که هر کلمه‌اش
+        از ته قلبم نوشته شده.
+    </p>
+    <button onclick="nextPage(2)">نامه‌ام را بخوان ❤️</button>
+</div>
+<div class="container hidden" id="page3">
+    <h1>نامه‌ای برای تو ❤️</h1>
+    <p id="letter"></p>
+    <button onclick="playMusic()">پخش موسیقی</button>
+    <button onclick="pauseMusic()">توقف موسیقی</button>
+    <p style="font-size:12px;color:#b98a9b">
+        برای موسیقی، فایل صوتی خودت را انتخاب کن:
+    </p>
+    <input type="file" accept="audio/*" onchange="loadMusic(event)">
+    <audio id="music" loop></audio>
+</div>
+<script>
+const pages = [
+    document.getElementById("page1"),
+    document.getElementById("page2"),
+    document.getElementById("page3")
+];
+function nextPage(current) {
+    pages[current - 1].classList.add("hidden");
+    pages[current].classList.remove("hidden");
+    if (current === 2) {
+        typeLetter();
+    }
+}
+const message = `بسم الله الرحمن الرحیم
+پانیذ قشنگم ، این نامه رو وقتی مینویسم که نمیدونم نتیجه کنکورم چیه و نمیدونم که آیا مشهد قبول میشم یا نه ولی دوست دارم بدونی که چقدر آرزوی قبول شدن مشهد رو دارم ، و این آرزو بیشترش به خاطر تو و قلبمه که پیش تو و در مشهده .
+پانیذ قشنگ من ، شاید دور بودن سخت بود ولی این آرزو رو من از وقتی که بار اول اومدیم خونتون داشتم و دارم و امیدوارم که قبول بشم .
+دوست دارم مثل همیشه بدونی که چقدر دوستت دارم ، چقدر عاشقتم و چقدر بهت وفادارم .
+شاید بعضی اوقات نتونم درست نشون بدم ولی همیشه سعی میکنم اولویتم تو باشی و همه جا و هر لحظه فکرتم پیش توعه پانیذ قشنگم .
+دوست دارم بدونی که جوری عاشقتم که اگه علاقه همه حتی مامان بابات رو به خودت جمع کنی باز هم به علاقه من بهت نمیرسه .
+کلی دوستت دارم عشقم .
+عاشقتم
+آرین
+۸/۱۵
+۲:۲۹`;
+let index = 0;
+function typeLetter() {
+    if (index < message.length) {
+        document.getElementById("letter").textContent += message[index];
+        index++;
+        setTimeout(typeLetter, 45);
+    }
+}
+function loadMusic(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const music = document.getElementById("music");
+        music.src = URL.createObjectURL(file);
+        music.play();
+    }
+}
+function playMusic() {
+    document.getElementById("music").play();
+}
+function pauseMusic() {
+    document.getElementById("music").pause();
+}
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "♥";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 10000);
+}, 700);
+</script>
+</body>
+</html>
